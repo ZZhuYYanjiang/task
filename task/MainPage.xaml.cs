@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -25,6 +14,44 @@ namespace task
         public MainPage()
         {
             this.InitializeComponent();
+            DispatcherTimer dTimer = new DispatcherTimer();
+            dTimer.Interval = TimeSpan.FromMilliseconds(100);
+            dTimer.Start();
+        }
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await SetLocalMedia();
+        }
+
+        async private System.Threading.Tasks.Task SetLocalMedia()
+        {
+            var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+
+            openPicker.FileTypeFilter.Add(".mp4");
+            openPicker.FileTypeFilter.Add(".mp3");
+            var file = await openPicker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+                mediaPlayer.SetSource(stream, file.ContentType);
+
+                mediaPlayer.Play();
+            }
+        }
+        private void Play_Click_1(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Play();
+        }
+
+        private void Pause_Click_1(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Pause();
+        }
+
+        private void Stop_Click_1(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Stop();
         }
     }
 }
