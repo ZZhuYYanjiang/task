@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace task
 {
-    /// <summary>
+    /// <summary>修复
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
     public sealed partial class MainPage : Page
